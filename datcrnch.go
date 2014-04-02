@@ -9,9 +9,13 @@ import (
 
 func main() {
 //  api.Listen("127.0.0.1", 9876)
-  f := filestore.Open("foo")
+  f := filestore.OpenForWrite("foo")
   data := data.CreateDataItem("foo", 23)
   filestore.Write(f, data)
+  filestore.Write(f, data)
   f.Close()
-  fmt.Println(f)
+  f = filestore.OpenForRead("foo")
+  i := filestore.Read(f)
+  fmt.Println(i)
+  f.Close()
 }
