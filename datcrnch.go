@@ -4,18 +4,33 @@ import (
   "fmt"
   filestore "github.com/gibheer/datcrnch/filestore"
 //  api "github.com/gibheer/datcrnch/api"
-  data "github.com/gibheer/datcrnch/data"
+  "time"
 )
 
 func main() {
 //  api.Listen("127.0.0.1", 9876)
   f := filestore.OpenForWrite("foo")
-  data := data.CreateDataItem("foo", 23)
-  filestore.Write(f, data)
-  filestore.Write(f, data)
+
+  values := filestore.IntValues{
+    Count: 23,
+    Average: 24,
+    Min: 25,
+    Max: 26,
+    Percentile99:27,
+  }
+  d := filestore.AggregatedDataPoint{time.Now(), "foo", values}
+  err := d.Write(f)
+  if err != nil {
+    fmt.Println("Bad:", err)
+  }
   f.Close()
+
   f = filestore.OpenForRead("foo")
-  i := filestore.Read(f)
-  fmt.Println(i)
-  f.Close()
+  var d2 filestore.AggregatedDataPoint
+  err = d2.Read(f)
+  if err != nil {
+    fmt.Println("Bad 2:", err)
+  }
+
+  fmt.Println(d, d2)
 }
