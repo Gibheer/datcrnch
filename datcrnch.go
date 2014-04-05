@@ -3,12 +3,12 @@ package main
 import (
   "fmt"
   filestore "github.com/gibheer/datcrnch/filestore"
-//  api "github.com/gibheer/datcrnch/api"
+  api "github.com/gibheer/datcrnch/api"
   "time"
 )
 
 func main() {
-//  api.Listen("127.0.0.1", 9876)
+  go api.Listen("127.0.0.1", 9876)
   f := filestore.OpenForWrite("foo")
 
   values := filestore.IntValues{

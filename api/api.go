@@ -3,7 +3,6 @@ package api
 import (
   "net/http"
   "fmt"
-  data "github.com/gibheer/datcrnch/data"
 )
 
 func Listen(hostname string, port int) {
@@ -16,6 +15,5 @@ func handler(w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(w, "This is so wrong")
     return
   }
-  d := data.CreateDataItem("foo", 23)
-  fmt.Fprint(w, d)
+  fmt.Fprint(w, "This is working")
 }
