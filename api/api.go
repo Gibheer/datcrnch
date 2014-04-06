@@ -15,5 +15,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(w, "This is so wrong")
     return
   }
+  r.ParseForm()
+  fmt.Println(r.PostForm)
   fmt.Fprint(w, "This is working")
 }

@@ -33,4 +33,5 @@ func main() {
   }
 
   fmt.Println(d, d2)
+  time.Sleep(5 * time.Minute)
 }
