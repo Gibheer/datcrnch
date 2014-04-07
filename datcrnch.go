@@ -32,6 +32,6 @@ func main() {
     fmt.Println("Bad 2:", err)
   }
 
-  fmt.Println(d, d2)
+  fmt.Println(d, d2, d.Size(), d2.Size())
   time.Sleep(5 * time.Minute)
 }

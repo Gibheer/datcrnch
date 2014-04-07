@@ -41,6 +41,10 @@ type IntValues struct {
   Percentile99 int32
 }
 
+func (d *AggregatedDataPoint) Size() int {
+  return encoding.Size(d.Values)
+}
+
 func (d *AggregatedDataPoint) Read(file *os.File) error {
   error := encoding.Read(file, encoding.BigEndian, &d.Values)
   return error
