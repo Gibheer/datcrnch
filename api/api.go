@@ -5,9 +5,21 @@ import (
   "fmt"
 )
 
+type Api struct {
+
+}
+
+func (a *Api) Handler(w http.ResponseWriter, r *http.Request) {
+  fmt.Fprint(w, "This is working!")
+}
+
 func Listen(hostname string, port int) {
-  http.HandleFunc("/", handler)
-  http.ListenAndServe(fmt.Sprintf("%s:%d", hostname, port), nil)
+  api := Api{}
+
+  http.HandleFunc("/server/", api.Handler)
+  bind := fmt.Sprintf("%s:%d", hostname, port)
+  fmt.Println("Starting Server on", bind)
+  http.ListenAndServe(bind, nil)
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
