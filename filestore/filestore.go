@@ -16,12 +16,12 @@ type RawDataPoint struct {
   Value int32
 }
 
-func (d *RawDataPoint) Read(file *os.File) error {
+func (d RawDataPoint) Read(file *os.File) error {
   error := encoding.Read(file, encoding.BigEndian, &d.Value)
   return error
 }
 
-func (d *RawDataPoint) Write(file *os.File) error {
+func (d RawDataPoint) Write(file *os.File) error {
   error := encoding.Write(file, encoding.BigEndian, d.Value)
   return error
 }
