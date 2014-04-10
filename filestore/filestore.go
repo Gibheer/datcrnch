@@ -1,8 +1,11 @@
 package filestore
 
-import "os"
-import "time"
-import encoding "encoding/binary"
+import (
+  "os"
+  "time"
+  encoding "encoding/binary"
+  "fmt"
+)
 
 type DataPoint interface {
   Read(file *os.File) error
@@ -16,13 +19,14 @@ type RawDataPoint struct {
   Value int32
 }
 
-func (d RawDataPoint) Read(file *os.File) error {
+func (d *RawDataPoint) Read(file *os.File) error {
   error := encoding.Read(file, encoding.BigEndian, &d.Value)
   return error
 }
 
-func (d RawDataPoint) Write(file *os.File) error {
+func (d *RawDataPoint) Write(file *os.File) error {
   error := encoding.Write(file, encoding.BigEndian, d.Value)
+  file.Sync()
   return error
 }
 
@@ -62,6 +66,9 @@ func OpenForWrite(filename string) *os.File {
 }
 
 func OpenForRead(filename string) *os.File {
-  f, _ := os.Open(filename)
+  f, err := os.Open(filename)
+  if err != nil {
+    fmt.Println("Error", err)
+  }
   return f
 }
