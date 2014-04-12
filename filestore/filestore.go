@@ -8,8 +8,12 @@ import (
 )
 
 type DataPoint interface {
+  // read one data point
   Read(file *os.File) error
+  // write the data point
   Write(file *os.File) error
+  // return the size the datapoint would have
+  Size() int64
 }
 
 // raw data point
@@ -30,6 +34,10 @@ func (d *RawDataPoint) Write(file *os.File) error {
   return error
 }
 
+func (d *RawDataPoint) Size() int64 {
+  return int64(encoding.Size(d.Value))
+}
+
 // aggregated data point
 type AggregatedDataPoint struct {
   Timestamp time.Time
@@ -45,8 +53,8 @@ type IntValues struct {
   Percentile99 int32
 }
 
-func (d *AggregatedDataPoint) Size() int {
-  return encoding.Size(d.Values)
+func (d *AggregatedDataPoint) Size() int64 {
+  return int64(encoding.Size(d.Values))
 }
 
 func (d *AggregatedDataPoint) Read(file *os.File) error {

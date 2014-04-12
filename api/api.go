@@ -32,6 +32,7 @@ func (a *Api) Handler(w http.ResponseWriter, r *http.Request) {
     fmt.Println("write successful")
   } else {
     var d filestore.RawDataPoint
+
     a.ReadData(&d)
 
     fmt.Fprint(w, "Found Data!", d)
@@ -48,6 +49,10 @@ func (a *Api) WriteData(d filestore.DataPoint) {
 func (a *Api) ReadData(d filestore.DataPoint) {
   f := filestore.OpenForRead(a.filename)
   defer f.Close()
+
+  stat, _  := f.Stat()
+  filesize := stat.Size()
+  fmt.Println(filesize, d.Size(), filesize / d.Size())
 
   err := d.Read(f)
   if err != nil {
